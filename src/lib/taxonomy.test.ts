@@ -93,6 +93,12 @@ describe('parseHash', () => {
       slug: 'advatek-pixlite',
     })
   })
+
+  it('returns null for empty slug or category parts', () => {
+    expect(parseHash('#/')).toBeNull()
+    expect(parseHash('#category/')).toBeNull()
+    expect(parseHash('#/slug')).toBeNull()
+  })
 })
 
 describe('serializeHash', () => {

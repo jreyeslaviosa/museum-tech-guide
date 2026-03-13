@@ -47,7 +47,8 @@ export function buildTree(entries: EntryMeta[]): TaxonomyTree {
     .filter(cat => catMap.has(cat))
     .map(cat => ({
       category: cat,
-      subcategories: Array.from(catMap.get(cat)!.values()),
+      subcategories: Array.from(catMap.get(cat)!.values())
+        .sort((a, b) => a.normalizedName.localeCompare(b.normalizedName)),
     }))
 }
 
