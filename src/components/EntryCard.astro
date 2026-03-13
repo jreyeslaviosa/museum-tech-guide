@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import type { EntryMeta, Category } from '../lib/taxonomy'
+import { buildEntryId, serializeHash } from '../lib/taxonomy'
+
+interface Props {
+  entry: CollectionEntry<Category>
+  category: Category
+  relatedEntries: EntryMeta[]
+}
+
+const { entry, category, relatedEntries } = Astro.props
+const { Content } = await entry.render()
+const fm = entry.data
+const id = buildEntryId(category, entry.slug)
+---
+
+<article id={id} class="entry-body">
+  <div class="entry-hd">
+    <h1>{fm.title}</h1>
+    <div class="badges">
+      <span class="badge">{category}</span>
+      <span class="badge badge-skill">{fm.skill_level}</span>
+      {fm.we_use_this && <span class="badge badge-we-use">✦ We use this</span>}
+    </div>
+  </div>
+
+  <div class="entry-content">
+    <Content />
+  </div>
+
+  {relatedEntries.length > 0 && (
+    <div>
+      <h2>Related</h2>
+      <div class="related-list">
+        {relatedEntries.map(r => (
+          <span class="related-chip" data-href={serializeHash(r.category, r.slug)}>
+            {r.title}
+          </span>
+        ))}
+      </div>
+    </div>
+  )}
+</article>

@@ -1,0 +1,48 @@
+---
+import type { TaxonomyTree } from '../lib/taxonomy'
+import { serializeHash } from '../lib/taxonomy'
+import { CATEGORY_META } from '../data/categories'
+
+interface Props { tree: TaxonomyTree }
+const { tree } = Astro.props
+---
+
+<nav id="sidebar">
+  <div id="sidebar-header"><h2>Tech Taxonomy</h2></div>
+
+  <slot name="search" />
+
+  <div id="search-results" role="listbox"></div>
+
+  <div class="tree" id="tree">
+    {tree.map(node => {
+      const meta = CATEGORY_META[node.category]
+      return (
+        <div class="tree-cat" data-cat={node.category}>
+          <div class="tree-cat-hd">
+            <span class="tree-toggle">▶</span>
+            <span>{meta.emoji} {meta.label}</span>
+          </div>
+          <div class="tree-children">
+            {node.subcategories.map(sub => (
+              <div class="tree-sub">
+                <div class="tree-sub-hd">
+                  <span class="tree-toggle">▶</span>
+                  <span>{sub.name}</span>
+                </div>
+                <div class="tree-children">
+                  {sub.entries.map(e => (
+                    <div class="tree-entry" data-href={serializeHash(e.category, e.slug)}>
+                      {e.we_use_this && <span class="dot" title="We use this" />}
+                      {e.title}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )
+    })}
+  </div>
+</nav>
