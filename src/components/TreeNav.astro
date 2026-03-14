@@ -8,11 +8,25 @@ const { tree } = Astro.props
 ---
 
 <nav id="sidebar">
-  <div id="sidebar-header"><h2>Tech Taxonomy</h2></div>
+  <div id="sidebar-header"><h2>Museum Tech Guide</h2></div>
 
   <slot name="search" />
 
   <div id="search-results" role="listbox"></div>
+
+  <div id="filter-bar">
+    <div id="skill-filters">
+      <button class="filter-btn" data-skill="beginner">Beginner</button>
+      <button class="filter-btn" data-skill="intermediate">Inter.</button>
+      <button class="filter-btn" data-skill="advanced">Advanced</button>
+    </div>
+    <button id="we-use-filter" class="filter-btn">◆ In use</button>
+  </div>
+
+  <div id="active-tag-bar" hidden>
+    <span id="active-tag-label"></span>
+    <button id="clear-tag">×</button>
+  </div>
 
   <div class="tree" id="tree">
     {tree.map(node => {
@@ -32,7 +46,14 @@ const { tree } = Astro.props
                 </div>
                 <div class="tree-children">
                   {sub.entries.map(e => (
-                    <div class="tree-entry" data-href={serializeHash(e.category, e.slug)}>
+                    <div
+                      class="tree-entry"
+                      data-href={serializeHash(e.category, e.slug)}
+                      data-skill={e.skill_level}
+                      data-we-use={e.we_use_this ? 'true' : 'false'}
+                      data-tags={e.tags.join(',')}
+                    >
+                      <span class={`skill-dot skill-${e.skill_level}`} title={e.skill_level}></span>
                       {e.we_use_this && <span class="dot" title="We use this" />}
                       {e.title}
                     </div>

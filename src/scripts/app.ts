@@ -87,6 +87,116 @@ document.addEventListener('click', e => {
   if (chip) location.hash = chip.dataset.href!
 })
 
+// ── Filters ───────────────────────────────────────────────────────────────────
+
+let activeSkillFilter: string | null = null
+let activeWeUseFilter = false
+let activeTagFilter: string | null = null
+
+function applyFilters() {
+  document.querySelectorAll<HTMLElement>('.tree-entry').forEach(el => {
+    const skill = el.dataset.skill
+    const weUse = el.dataset.weUse === 'true'
+    const tags = (el.dataset.tags || '').split(',').filter(Boolean)
+    let show = true
+    if (activeSkillFilter && skill !== activeSkillFilter) show = false
+    if (activeWeUseFilter && !weUse) show = false
+    if (activeTagFilter && !tags.includes(activeTagFilter)) show = false
+    el.style.display = show ? '' : 'none'
+  })
+
+  // Hide subcategories with no visible entries
+  document.querySelectorAll<HTMLElement>('.tree-sub').forEach(sub => {
+    const hasVisible = Array.from(sub.querySelectorAll<HTMLElement>('.tree-entry'))
+      .some(e => e.style.display !== 'none')
+    sub.style.display = hasVisible ? '' : 'none'
+  })
+
+  // Hide categories with no visible subcategories
+  document.querySelectorAll<HTMLElement>('.tree-cat').forEach(cat => {
+    const hasVisible = Array.from(cat.querySelectorAll<HTMLElement>('.tree-sub'))
+      .some(e => e.style.display !== 'none')
+    cat.style.display = hasVisible ? '' : 'none'
+  })
+
+  // Auto-expand all visible nodes when a filter is active
+  const anyActive = activeSkillFilter !== null || activeWeUseFilter || activeTagFilter !== null
+  if (anyActive) {
+    document.querySelectorAll<HTMLElement>('.tree-cat, .tree-sub').forEach(node => {
+      if (node.style.display !== 'none') {
+        node.querySelector<HTMLElement>('.tree-children')?.classList.add('open')
+        node.querySelector<HTMLElement>('.tree-toggle')?.classList.add('open')
+      }
+    })
+  }
+}
+
+// Skill filter buttons
+document.querySelectorAll<HTMLElement>('.filter-btn[data-skill]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const skill = btn.dataset.skill!
+    if (activeSkillFilter === skill) {
+      activeSkillFilter = null
+      btn.classList.remove('active')
+    } else {
+      document.querySelectorAll<HTMLElement>('.filter-btn[data-skill]').forEach(b => b.classList.remove('active'))
+      activeSkillFilter = skill
+      btn.classList.add('active')
+    }
+    applyFilters()
+  })
+})
+
+// We use this filter
+document.getElementById('we-use-filter')?.addEventListener('click', function () {
+  activeWeUseFilter = !activeWeUseFilter
+  this.classList.toggle('active', activeWeUseFilter)
+  applyFilters()
+})
+
+// Tag chip clicks (in entry cards)
+document.addEventListener('click', e => {
+  const chip = (e.target as HTMLElement).closest<HTMLElement>('.tag-chip[data-tag]')
+  if (!chip) return
+  const tag = chip.dataset.tag!
+  activeTagFilter = activeTagFilter === tag ? null : tag
+
+  const bar = document.getElementById('active-tag-bar')!
+  const label = document.getElementById('active-tag-label')!
+  if (activeTagFilter) {
+    label.textContent = `#${activeTagFilter}`
+    bar.hidden = false
+    showWelcome()
+  } else {
+    bar.hidden = true
+  }
+  document.querySelectorAll<HTMLElement>('.tag-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.tag === activeTagFilter)
+  })
+  applyFilters()
+})
+
+// Clear tag filter
+document.getElementById('clear-tag')?.addEventListener('click', () => {
+  activeTagFilter = null
+  document.getElementById('active-tag-bar')!.hidden = true
+  document.querySelectorAll<HTMLElement>('.tag-chip').forEach(c => c.classList.remove('active'))
+  applyFilters()
+})
+
+// Category card clicks — expand that category in the tree
+document.querySelectorAll<HTMLElement>('.cat-card[data-cat]').forEach(card => {
+  card.addEventListener('click', () => {
+    const cat = card.dataset.cat!
+    const catEl = document.querySelector<HTMLElement>(`.tree-cat[data-cat="${cat}"]`)
+    if (catEl) {
+      catEl.querySelector<HTMLElement>('.tree-children')?.classList.add('open')
+      catEl.querySelector<HTMLElement>('.tree-toggle')?.classList.add('open')
+      catEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }
+  })
+})
+
 // ── Back home ────────────────────────────────────────────────────────────────
 
 document.getElementById('back-home')?.addEventListener('click', e => {

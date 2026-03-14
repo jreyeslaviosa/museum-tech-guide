@@ -37,6 +37,14 @@ const catLabel = CATEGORY_META[category].label
     <Content />
   </div>
 
+  {fm.tags.length > 0 && (
+    <div class="tags-section">
+      {fm.tags.map(tag => (
+        <span class="tag-chip" data-tag={tag}>#{tag}</span>
+      ))}
+    </div>
+  )}
+
   {relatedEntries.length > 0 && (
     <div class="related-section">
       <h2>Related</h2>

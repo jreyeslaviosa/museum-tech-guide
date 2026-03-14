@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 import type { Category, EntryMeta } from '../lib/taxonomy'
 import { buildTree, resolveRelated } from '../lib/taxonomy'
-import { CATEGORIES } from '../data/categories'
+import { CATEGORIES, CATEGORY_META } from '../data/categories'
 import TreeNav from '../components/TreeNav.astro'
 import SearchBar from '../components/SearchBar.astro'
 import EntryCard from '../components/EntryCard.astro'
@@ -37,6 +37,18 @@ const loaded: Loaded[] = (
 const allEntries = loaded.map(l => l.meta)
 const tree = buildTree(allEntries)
 
+const CATEGORY_DESC: Partial<Record<typeof CATEGORIES[number], string>> = {
+  'creative-code': 'Visual frameworks, engines & environments',
+  display:         'Projection, LED panels & video distribution',
+  'av-tools':      'Show control, audio & lighting protocols',
+  physical:        'Microcontrollers, motors & embedded hardware',
+  sensors:         'Depth cameras, tracking & computer vision',
+  'ai-tools':      'Generative AI, voice synthesis & image tools',
+}
+const categoryCounts = Object.fromEntries(
+  CATEGORIES.map(cat => [cat, allEntries.filter(e => e.category === cat).length])
+)
+
 // Safe JSON: escape </script> sequences
 const taxonomyJson = JSON.stringify(allEntries).replace(/<\/script>/gi, '<\\/script>')
 ---
@@ -64,13 +76,19 @@ const taxonomyJson = JSON.stringify(allEntries).replace(/<\/script>/gi, '<\\/scr
 
   <div id="main">
     <div id="welcome">
-      <h1>Museum Tech<br/>Guide</h1>
-      <p>
-        A reference for the museum's creative technology landscape.
-        Browse tools, protocols, and techniques — from projection and LED
-        systems to physical computing and sensing.
-      </p>
-      <p>Select an entry from the tree, or search above.</p>
+      <div id="welcome-intro">
+        <h1>Museum Tech<br/>Guide</h1>
+        <p>A reference for the museum's creative technology landscape. Browse tools, protocols, and techniques — or filter by skill level and what the team uses.</p>
+      </div>
+      <div id="cat-grid">
+        {CATEGORIES.map(cat => (
+          <div class="cat-card" data-cat={cat}>
+            <div class="cat-card-count">{categoryCounts[cat]}</div>
+            <div class="cat-card-label">{CATEGORY_META[cat].label}</div>
+            <div class="cat-card-desc">{CATEGORY_DESC[cat]}</div>
+          </div>
+        ))}
+      </div>
     </div>
 
     <div id="not-found">
