@@ -20,13 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Read Node version
-        id: node-version
-        run: echo "version=$(cat .nvmrc)" >> $GITHUB_OUTPUT
-
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ steps.node-version.outputs.version }}
+          node-version: 20
           cache: npm
 
       - run: npm ci
