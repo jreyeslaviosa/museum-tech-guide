@@ -1,13 +1,14 @@
-export type Category = 'display' | 'light' | 'sound' | 'physical' | 'interaction'
+export type Category = 'creative-code' | 'display' | 'av-tools' | 'physical' | 'sensors' | 'ai-tools'
 
 export const CATEGORIES: Category[] = [
-  'display', 'light', 'sound', 'physical', 'interaction',
+  'creative-code', 'display', 'av-tools', 'physical', 'sensors', 'ai-tools',
 ]
 
 export const CATEGORY_META: Record<Category, { label: string; emoji: string }> = {
-  display:     { label: 'Display',     emoji: '🖥️' },
-  light:       { label: 'Light',       emoji: '💡' },
-  sound:       { label: 'Sound',       emoji: '🔊' },
-  physical:    { label: 'Physical',    emoji: '⚙️' },
-  interaction: { label: 'Interaction', emoji: '🤝' },
+  'creative-code': { label: 'Creative Code Frameworks', emoji: '💻' },
+  display:         { label: 'Display Tech & Video',     emoji: '🖥️' },
+  'av-tools':      { label: 'Professional AV Tools',    emoji: '🎛️' },
+  physical:        { label: 'Physical Computing',       emoji: '⚙️' },
+  sensors:         { label: 'Sensors & Interaction',    emoji: '👁️' },
+  'ai-tools':      { label: 'AI & Machine Learning',    emoji: '🤖' },
 }

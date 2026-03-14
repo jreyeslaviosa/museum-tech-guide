@@ -3,6 +3,7 @@ import { render } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 import type { EntryMeta, Category } from '../lib/taxonomy'
 import { buildEntryId, serializeHash } from '../lib/taxonomy'
+import { CATEGORY_META } from '../data/categories'
 
 interface Props {
   entry: CollectionEntry<Category>
@@ -14,15 +15,21 @@ const { entry, category, relatedEntries } = Astro.props
 const { Content } = await render(entry)
 const fm = entry.data
 const id = buildEntryId(category, entry.id)
+const catLabel = CATEGORY_META[category].label
 ---
 
 <article id={id} class="entry-body">
   <div class="entry-hd">
-    <h1>{fm.title}</h1>
-    <div class="badges">
-      <span class="badge">{category}</span>
-      <span class="badge badge-skill">{fm.skill_level}</span>
-      {fm.we_use_this && <span class="badge badge-we-use">✦ We use this</span>}
+    <div class="entry-meta">
+      <span>{catLabel}</span>
+      <span class="entry-meta-sep">·</span>
+      <span>{fm.subcategory}</span>
+      <span class="entry-meta-sep">·</span>
+      <span>{fm.skill_level}</span>
+    </div>
+    <div class="entry-title-row">
+      <h1>{fm.title}</h1>
+      {fm.we_use_this && <span class="badge-we-use">◆ We use this</span>}
     </div>
   </div>
 
@@ -31,7 +38,7 @@ const id = buildEntryId(category, entry.id)
   </div>
 
   {relatedEntries.length > 0 && (
-    <div>
+    <div class="related-section">
       <h2>Related</h2>
       <div class="related-list">
         {relatedEntries.map(r => (

@@ -20,14 +20,14 @@ const { tree } = Astro.props
       return (
         <div class="tree-cat" data-cat={node.category}>
           <div class="tree-cat-hd">
-            <span class="tree-toggle">▶</span>
-            <span>{meta.emoji} {meta.label}</span>
+            <span class="tree-toggle">›</span>
+            <span>{meta.label}</span>
           </div>
           <div class="tree-children">
             {node.subcategories.map(sub => (
               <div class="tree-sub">
                 <div class="tree-sub-hd">
-                  <span class="tree-toggle">▶</span>
+                  <span class="tree-toggle">›</span>
                   <span>{sub.name}</span>
                 </div>
                 <div class="tree-children">

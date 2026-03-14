@@ -13,9 +13,10 @@ const entrySchema = z.object({
 export type EntryFrontmatter = z.infer<typeof entrySchema>
 
 export const collections = {
-  display:     defineCollection({ loader: glob({ pattern: '**/*.md', base: './src/content/display' }),     schema: entrySchema }),
-  light:       defineCollection({ loader: glob({ pattern: '**/*.md', base: './src/content/light' }),       schema: entrySchema }),
-  sound:       defineCollection({ loader: glob({ pattern: '**/*.md', base: './src/content/sound' }),       schema: entrySchema }),
-  physical:    defineCollection({ loader: glob({ pattern: '**/*.md', base: './src/content/physical' }),    schema: entrySchema }),
-  interaction: defineCollection({ loader: glob({ pattern: '**/*.md', base: './src/content/interaction' }), schema: entrySchema }),
+  'creative-code': defineCollection({ loader: glob({ pattern: '**/*.md', base: './src/content/creative-code' }), schema: entrySchema }),
+  display:         defineCollection({ loader: glob({ pattern: '**/*.md', base: './src/content/display' }),        schema: entrySchema }),
+  'av-tools':      defineCollection({ loader: glob({ pattern: '**/*.md', base: './src/content/av-tools' }),       schema: entrySchema }),
+  physical:        defineCollection({ loader: glob({ pattern: '**/*.md', base: './src/content/physical' }),       schema: entrySchema }),
+  sensors:         defineCollection({ loader: glob({ pattern: '**/*.md', base: './src/content/sensors' }),        schema: entrySchema }),
+  'ai-tools':      defineCollection({ loader: glob({ pattern: '**/*.md', base: './src/content/ai-tools' }),       schema: entrySchema }),
 }

@@ -1,6 +1,6 @@
 ---
 title: LED Strip / Pixel Tape
-subcategory: LED Systems
+subcategory: LED Hardware
 skill_level: beginner
 we_use_this: true
 related: [advatek-pixlite, artnet]

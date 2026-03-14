@@ -1,6 +1,6 @@
 ---
 title: DMX512
-subcategory: Protocols
+subcategory: Lighting Protocols
 skill_level: beginner
 we_use_this: true
 related: [artnet]

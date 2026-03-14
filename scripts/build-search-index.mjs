@@ -6,7 +6,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const contentDir = join(__dirname, '../src/content')
 const distDir    = join(__dirname, '../dist')
 
-const CATEGORIES = ['display', 'light', 'sound', 'physical', 'interaction']
+const CATEGORIES = ['creative-code', 'display', 'av-tools', 'physical', 'sensors', 'ai-tools']
 
 // Minimal frontmatter parser (no extra deps)
 function parseFrontmatter(raw) {

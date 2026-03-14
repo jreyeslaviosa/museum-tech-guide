@@ -1,9 +1,9 @@
 ---
 title: Microsoft Kinect
-subcategory: Depth Cameras
+subcategory: Optical Tracking
 skill_level: intermediate
 we_use_this: false
-related: [touchdesigner]
+related: [touchdesigner, depth-camera, opencv, lidar]
 tags: [depth-camera, skeleton-tracking, interaction, sensor, computer-vision]
 ---
 

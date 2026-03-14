@@ -1,9 +1,9 @@
 ---
 title: Advatek PixLite
-subcategory: LED Systems
+subcategory: LED Controllers
 skill_level: intermediate
 we_use_this: true
-related: [artnet, led-strip]
+related: [artnet, sacn, led-strip, led-panels, madrix]
 tags: [led, controller, ethernet, pixel, artnet]
 ---
 

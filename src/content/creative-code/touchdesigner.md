@@ -1,9 +1,9 @@
 ---
 title: TouchDesigner
-subcategory: Media Servers & Software
+subcategory: Node-Based / Visual
 skill_level: intermediate
 we_use_this: true
-related: [artnet, resolume-arena]
+related: [artnet, resolume-arena, madmapper, notch, ndi]
 tags: [realtime, generative, media-server, node-based, programming]
 ---
 

@@ -1,9 +1,9 @@
 ---
 title: ArtNet
-subcategory: Protocols
+subcategory: Lighting Protocols
 skill_level: intermediate
 we_use_this: true
-related: [dmx-basics, advatek-pixlite, touchdesigner]
+related: [dmx-basics, sacn, advatek-pixlite, touchdesigner, enttec]
 tags: [protocol, dmx, networking, ethernet, sacn]
 ---
 
