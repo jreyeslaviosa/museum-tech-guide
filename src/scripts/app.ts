@@ -275,6 +275,11 @@ document.getElementById('back-home')?.addEventListener('click', e => {
   showWelcome()
 })
 
+document.getElementById('home-link')?.addEventListener('click', () => {
+  location.hash = ''
+  showWelcome()
+})
+
 // ── Mobile toggle ─────────────────────────────────────────────────────────────
 
 document.getElementById('mobile-browse')?.addEventListener('click', () => {

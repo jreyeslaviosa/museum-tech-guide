@@ -45,6 +45,8 @@ a:hover { color: var(--text-muted); }
   padding: 22px 18px 18px;
   border-bottom: 1px solid var(--border);
 }
+#sidebar-header h2 { cursor: pointer; }
+#sidebar-header h2:hover { color: var(--text); }
 #sidebar-header h2 {
   font-family: 'DM Mono', 'Courier New', monospace;
   font-size: 0.65em;
