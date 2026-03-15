@@ -2,7 +2,7 @@
 title: QLab
 subcategory: Show Control
 skill_level: beginner
-we_use_this: false
+we_use_this: true
 related: [osc, midi, watchout, chataigne]
 tags: [show-control, playback, audio, video, lighting, cue, theatre, mac]
 ---

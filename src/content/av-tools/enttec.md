@@ -2,7 +2,7 @@
 title: Enttec
 subcategory: Lighting Hardware
 skill_level: beginner
-we_use_this: false
+we_use_this: true
 related: [dmx-basics, artnet, qlcplus]
 tags: [dmx, interface, usb, hardware, controller, open-dmx]
 ---

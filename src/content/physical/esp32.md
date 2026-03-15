@@ -2,7 +2,7 @@
 title: ESP32
 subcategory: Microcontrollers
 skill_level: beginner
-we_use_this: false
+we_use_this: true
 related: [arduino, wled, teensy]
 tags: [microcontroller, wifi, bluetooth, esp32, espressif, iot, embedded]
 ---
@@ -13,7 +13,7 @@ The ESP32 is a low-cost, low-power microcontroller with built-in WiFi and Blueto
 
 | | ESP32 | Arduino Uno |
 |---|---|---|
-| Price | ~£3–8 | ~£20 |
+| Price | ~$4–10 | ~$25 |
 | WiFi | Built-in | Needs shield |
 | Bluetooth | Built-in | No |
 | Speed | 240MHz dual-core | 16MHz |

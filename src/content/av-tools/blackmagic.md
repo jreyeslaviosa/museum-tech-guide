@@ -2,7 +2,7 @@
 title: Blackmagic Design
 subcategory: Video Signal
 skill_level: beginner
-we_use_this: false
+we_use_this: true
 related: [ndi, watchout, disguise, birddog]
 tags: [video, capture, converter, sdi, hdmi, switcher, blackmagic, signal]
 ---

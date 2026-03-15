@@ -2,7 +2,7 @@
 title: MadMapper
 subcategory: Media Servers & Software
 skill_level: beginner
-we_use_this: false
+we_use_this: true
 related: [resolume-arena, touchdesigner, artnet, led-strip]
 tags: [projection-mapping, led-mapping, media-server, syphon]
 ---

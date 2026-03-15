@@ -2,7 +2,7 @@
 title: Raspberry Pi
 subcategory: Single-Board Computers
 skill_level: beginner
-we_use_this: false
+we_use_this: true
 related: [arduino]
 tags: [sbc, linux, embedded, python, media-player, kiosk]
 ---

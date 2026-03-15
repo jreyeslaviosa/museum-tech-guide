@@ -2,16 +2,16 @@
 title: WLED
 subcategory: LED Controllers
 skill_level: beginner
-we_use_this: false
+we_use_this: true
 related: [led-strip, artnet, sacn, arduino, raspberry-pi]
 tags: [led, wled, esp32, wifi, artnet, sacn, addressable, open-source]
 ---
 
-WLED is open-source firmware for ESP32 and ESP8266 microcontrollers that turns a £5 board into a fully-featured WiFi-connected LED controller. It ships with over 100 built-in effects, a web interface accessible from any browser, and support for ArtNet and sACN — making it one of the most practical tools for LED installations at any scale.
+WLED is open-source firmware for ESP32 and ESP8266 microcontrollers that turns a $6 board into a fully-featured WiFi-connected LED controller. It ships with over 100 built-in effects, a web interface accessible from any browser, and support for ArtNet and sACN — making it one of the most practical tools for LED installations at any scale.
 
 ## Why It Matters
 
-Before WLED, driving addressable LEDs from a network required dedicated hardware (Advatek, DMXking) or custom firmware. WLED runs on a generic ESP32 board you can buy for a few pounds, configured entirely through a browser with no code required. For prototyping, art installations, or smaller permanent pieces it is often the fastest path from idea to working lights.
+Before WLED, driving addressable LEDs from a network required dedicated hardware (Advatek, DMXking) or custom firmware. WLED runs on a generic ESP32 board you can buy for a few dollars, configured entirely through a browser with no code required. For prototyping, art installations, or smaller permanent pieces it is often the fastest path from idea to working lights.
 
 ## Key Features
 

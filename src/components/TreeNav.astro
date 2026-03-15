@@ -19,8 +19,16 @@ const { tree } = Astro.props
       <button class="filter-btn" data-skill="beginner">Beginner</button>
       <button class="filter-btn" data-skill="intermediate">Inter.</button>
       <button class="filter-btn" data-skill="advanced">Advanced</button>
+      <button id="we-use-filter" class="filter-btn">◆ In use</button>
     </div>
-    <button id="we-use-filter" class="filter-btn">◆ In use</button>
+    <div id="filter-meta">
+      <div id="skill-legend">
+        <span><span class="skill-dot skill-beginner"></span>Beginner</span>
+        <span><span class="skill-dot skill-intermediate"></span>Intermediate</span>
+        <span><span class="skill-dot skill-advanced"></span>Advanced</span>
+      </div>
+      <span id="entry-count"></span>
+    </div>
   </div>
 
   <div id="active-tag-bar" hidden>
@@ -52,6 +60,7 @@ const { tree } = Astro.props
                       data-skill={e.skill_level}
                       data-we-use={e.we_use_this ? 'true' : 'false'}
                       data-tags={e.tags.join(',')}
+                      tabindex="0"
                     >
                       <span class={`skill-dot skill-${e.skill_level}`} title={e.skill_level}></span>
                       {e.we_use_this && <span class="dot" title="We use this" />}

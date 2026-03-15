@@ -2,7 +2,7 @@
 title: NDI (Network Device Interface)
 subcategory: Protocols & Connectivity
 skill_level: beginner
-we_use_this: false
+we_use_this: true
 related: [watchout, resolume-arena, touchdesigner]
 tags: [protocol, video, networking, ip, syphon, spout, low-latency]
 ---

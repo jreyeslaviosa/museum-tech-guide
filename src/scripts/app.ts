@@ -10,18 +10,21 @@ const allEntries: EntryMeta[] = JSON.parse(
 
 // ── Navigation ────────────────────────────────────────────────────────────────
 
-function showWelcome() {
-  document.getElementById('welcome')!.style.display = ''
+function hidePanels() {
+  document.getElementById('welcome')!.style.display = 'none'
+  document.getElementById('cat-view')!.classList.remove('active')
   document.getElementById('not-found')!.classList.remove('active')
   document.querySelectorAll<HTMLElement>('.entry-body.active').forEach(el => el.classList.remove('active'))
   document.querySelectorAll('.tree-entry.active').forEach(el => el.classList.remove('active'))
 }
 
+function showWelcome() {
+  hidePanels()
+  document.getElementById('welcome')!.style.display = ''
+}
+
 function navigate(hash: string) {
-  document.querySelectorAll('.tree-entry.active').forEach(el => el.classList.remove('active'))
-  document.querySelectorAll<HTMLElement>('.entry-body.active').forEach(el => el.classList.remove('active'))
-  document.getElementById('welcome')!.style.display = 'none'
-  document.getElementById('not-found')!.classList.remove('active')
+  hidePanels()
 
   if (!hash || hash === '#') {
     showWelcome()
@@ -78,6 +81,12 @@ document.querySelectorAll<HTMLElement>('.tree-cat-hd, .tree-sub-hd').forEach(hd 
 
 document.querySelectorAll<HTMLElement>('.tree-entry[data-href]').forEach(el => {
   el.addEventListener('click', () => { location.hash = el.dataset.href! })
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      location.hash = el.dataset.href!
+    }
+  })
 })
 
 // ── Related chip clicks ───────────────────────────────────────────────────────
@@ -92,6 +101,15 @@ document.addEventListener('click', e => {
 let activeSkillFilter: string | null = null
 let activeWeUseFilter = false
 let activeTagFilter: string | null = null
+
+function updateEntryCount() {
+  const total = document.querySelectorAll<HTMLElement>('.tree-entry').length
+  const visible = Array.from(document.querySelectorAll<HTMLElement>('.tree-entry'))
+    .filter(e => e.style.display !== 'none').length
+  const countEl = document.getElementById('entry-count')!
+  const anyActive = activeSkillFilter !== null || activeWeUseFilter || activeTagFilter !== null
+  countEl.textContent = anyActive ? `${visible} / ${total}` : ''
+}
 
 function applyFilters() {
   document.querySelectorAll<HTMLElement>('.tree-entry').forEach(el => {
@@ -129,6 +147,8 @@ function applyFilters() {
       }
     })
   }
+
+  updateEntryCount()
 }
 
 // Skill filter buttons
@@ -184,17 +204,67 @@ document.getElementById('clear-tag')?.addEventListener('click', () => {
   applyFilters()
 })
 
-// Category card clicks — expand that category in the tree
+// ── Category view ─────────────────────────────────────────────────────────────
+
+const CATEGORY_DESC: Record<string, string> = {
+  'creative-code': 'Visual frameworks, engines & environments',
+  display:         'Projection, LED panels & video distribution',
+  'av-tools':      'Show control, audio & lighting protocols',
+  physical:        'Microcontrollers, motors & embedded hardware',
+  sensors:         'Depth cameras, tracking & computer vision',
+  'ai-tools':      'Generative AI, voice synthesis & image tools',
+}
+
+const CATEGORY_LABELS: Record<string, string> = {}
+document.querySelectorAll<HTMLElement>('.tree-cat[data-cat]').forEach(el => {
+  const cat = el.dataset.cat!
+  const label = el.querySelector<HTMLElement>('.tree-cat-hd span:last-child')?.textContent ?? cat
+  CATEGORY_LABELS[cat] = label
+})
+
+function showCategoryView(cat: string) {
+  hidePanels()
+  const view = document.getElementById('cat-view')!
+  document.getElementById('cat-view-title')!.textContent = CATEGORY_LABELS[cat] ?? cat
+  document.getElementById('cat-view-desc')!.textContent = CATEGORY_DESC[cat] ?? ''
+
+  const entries = allEntries.filter(e => e.category === cat)
+  const list = document.getElementById('cat-view-entries')!
+  list.innerHTML = entries.map(e =>
+    `<div class="cv-entry" data-href="${serializeHash(e.category, e.slug)}">
+       <div class="cv-entry-left">
+         <span class="skill-dot skill-${e.skill_level}" title="${e.skill_level}"></span>
+         <span class="cv-title">${e.title}</span>
+       </div>
+       <span class="cv-sub">${e.subcategory}</span>
+       ${e.we_use_this ? '<span class="cv-we-use">◆</span>' : ''}
+     </div>`
+  ).join('')
+
+  list.querySelectorAll<HTMLElement>('.cv-entry[data-href]').forEach(el => {
+    el.addEventListener('click', () => { location.hash = el.dataset.href! })
+  })
+
+  view.classList.add('active')
+}
+
+// Category card clicks
 document.querySelectorAll<HTMLElement>('.cat-card[data-cat]').forEach(card => {
   card.addEventListener('click', () => {
     const cat = card.dataset.cat!
+    showCategoryView(cat)
+    // Also expand in tree
     const catEl = document.querySelector<HTMLElement>(`.tree-cat[data-cat="${cat}"]`)
     if (catEl) {
       catEl.querySelector<HTMLElement>('.tree-children')?.classList.add('open')
       catEl.querySelector<HTMLElement>('.tree-toggle')?.classList.add('open')
-      catEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
     }
   })
+})
+
+// Cat view back button
+document.getElementById('cat-view-back')?.addEventListener('click', () => {
+  showWelcome()
 })
 
 // ── Back home ────────────────────────────────────────────────────────────────
@@ -211,9 +281,49 @@ document.getElementById('mobile-browse')?.addEventListener('click', () => {
   document.getElementById('sidebar')?.classList.toggle('open')
 })
 
-// ── Search ────────────────────────────────────────────────────────────────────
+// ── Keyboard navigation ───────────────────────────────────────────────────────
 
 const searchInput = document.getElementById('search-input') as HTMLInputElement
+
+document.addEventListener('keydown', e => {
+  // / to focus search (when not already in an input)
+  if (e.key === '/' && document.activeElement?.tagName !== 'INPUT') {
+    e.preventDefault()
+    searchInput.focus()
+    searchInput.select()
+    return
+  }
+
+  // Escape: clear search or go back to welcome
+  if (e.key === 'Escape') {
+    if (searchInput.value) {
+      searchInput.value = ''
+      searchInput.dispatchEvent(new Event('input'))
+      searchInput.blur()
+    } else if (document.getElementById('cat-view')!.classList.contains('active')) {
+      showWelcome()
+    } else if (document.querySelector('.entry-body.active')) {
+      location.hash = ''
+      showWelcome()
+    }
+    return
+  }
+
+  // Arrow keys navigate tree entries when tree is focused
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    const focused = document.activeElement as HTMLElement
+    if (!focused?.classList.contains('tree-entry')) return
+    e.preventDefault()
+    const all = Array.from(document.querySelectorAll<HTMLElement>('.tree-entry'))
+      .filter(el => el.style.display !== 'none' && el.offsetParent !== null)
+    const idx = all.indexOf(focused)
+    const next = e.key === 'ArrowDown' ? all[idx + 1] : all[idx - 1]
+    next?.focus()
+  }
+})
+
+// ── Search ────────────────────────────────────────────────────────────────────
+
 const searchResults = document.getElementById('search-results')!
 const searchError = document.getElementById('search-error') as HTMLElement
 const treeEl = document.getElementById('tree')!
@@ -265,7 +375,11 @@ searchInput.addEventListener('input', async () => {
   searchResults.innerHTML = hits.length
     ? hits.map(h =>
         `<div class="sr-item" data-href="${serializeHash(h.item.category, h.item.slug)}">
-           <div class="sr-title">${h.item.title}</div>
+           <div class="sr-title">
+             <span class="skill-dot skill-${h.item.skill_level}"></span>
+             ${h.item.title}
+             ${h.item.we_use_this ? '<span class="sr-we-use">◆</span>' : ''}
+           </div>
            <div class="sr-crumb">${h.item.category} › ${h.item.subcategory}</div>
          </div>`
       ).join('')

@@ -11,7 +11,7 @@ Bitfocus Companion is free software that turns an Elgato Stream Deck (or similar
 
 ## Why It Matters
 
-A Stream Deck costs around £100 and Companion is free. Together they give a non-technical operator a custom, labelled button panel to control complex show systems without touching a laptop keyboard — the kind of tool a museum technician or duty manager uses to run the daily show.
+A Stream Deck costs around $130 and Companion is free. Together they give a non-technical operator a custom, labelled button panel to control complex show systems without touching a laptop keyboard — the kind of tool a museum technician or duty manager uses to run the daily show.
 
 ## Use Cases
 

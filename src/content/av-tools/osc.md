@@ -2,7 +2,7 @@
 title: OSC (Open Sound Control)
 subcategory: Protocols
 skill_level: beginner
-we_use_this: false
+we_use_this: true
 related: [midi, qlab, chataigne, touchdesigner]
 tags: [protocol, osc, networking, udp, show-control, interactive]
 ---

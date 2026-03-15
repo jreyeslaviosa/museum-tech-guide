@@ -2,7 +2,7 @@
 title: sACN (E1.31)
 subcategory: Lighting Protocols
 skill_level: intermediate
-we_use_this: false
+we_use_this: true
 related: [artnet, dmx-basics, advatek-pixlite]
 tags: [protocol, dmx, networking, ethernet, sacn, e1.31, lighting]
 ---
